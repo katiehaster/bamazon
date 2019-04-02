@@ -11,7 +11,6 @@ let connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
     viewItems();
 });
 
@@ -19,42 +18,90 @@ function viewItems() {
     connection.query("SELECT * FROM products", function(err, result) {
         if (err) throw err;
         console.table(result);
-        userInput();
-    });
-}
-
-function userInput() {
-    inquirer.prompt([
-    {
-        type: "input",
-        name: "customerProductId",
-        message: "What is the ID of the product you would like to purchase?"
-    },
-    {
-        type: "input",
-        name: "customerQtyRequest",
-        message: "How many would you like?"
-    }
-
-    // 
-
-        .then(function (customerOrderCheck) {
-        connection.query("SELECT * FROM products", function(err, result) {
-            if (err) throw err;
-            console.log("Error: " + "customerOrderCheck")
-            if (customerOrderCheck.customerProductID <= result.stock_quantity) {
-            update();
-            } else console.log("Insufficient order!") {
-                // run update blocker
+       
+        var arr = [];
+        for (let i = 0; i < arr.length; i++) {
+         console.log(arr);
+        }
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "customerProductChoice",
+                message: "What would like to purchase?",
+                choices: function() {
+                    var choiceArray = [];
+                    for (var i = 0; i < result.length; i++) {
+                      choiceArray.push(result[i].product_name);
+                    }
+                    return choiceArray;
+                  },
+            },
+            {
+                type: "input",
+                name: "requestedQuantity",
+                message: "How many would you like?"
             }
-        })
-            })
-    ]);
+        ])
+
+        .then(function (answer) {
+            var requestedQuantity = answer.requestedQuantity;
+            // check how much stock there is for the chosen item
+            connection.query("SELECT * FROM products WHERE item_id=?", function (err, result) {
+                if (err) throw err;
+                var actualQuantity = result[0].stock_quantity;
+                var price = result[0].price;
+
+                //determines if there is enough in stock to meet the customers desired quantity
+                if (requestedQuantity <= actualQuantity) {
+
+                    //if have enough stock, update the available stock quantity and tell customer their total and that their order is fulfilled
+                    var newQuantity = actualQuantity - requestedQuantity;
+                    var totalPrice = requestedQuantity * price;
+                    connection.query("UPDATE products SET ? WHERE ?",
+                        [
+                            {
+                                stock_quantity: newQuantity
+                            },
+                            {
+                                item_id: product_id
+                            }
+                        ],
+                        console.log("Your order has been placed! Your total is $" + totalPrice + "."));
+                }
+
+                // not enough stock, sorry customer message
+                else {
+                    console.log("Sorry we don't have enough in stock to fulfill your order.");
+                }
+                connection.end();
+            }
+            );
+        }
+        )
+}
+)
 }
 
-function update(); {
-    connection.query(
-        "SELECT * FROM
-    )
-}
+
+   
+        // .then(function (customerOrderCheck) {
+        //     var
+        // connection.query("SELECT * FROM products WHERE ?",{
+            
+        // } function(err, result) {
+        //     if (err) throw err;
+        //     console.log("Error: " + "customerOrderCheck")
+        //     if (customerOrderCheck.customerQtyRequest <= result.stock_quantity) {
+        //     update();
+        //     } else console.log("Insufficient order!") 
+        //         // run update blocker
+            
+        // })
+        //     });
+   
+// function update(); {
+//     connection.query(
+//         "SELECT * FROM
+//     )
+// }
 
