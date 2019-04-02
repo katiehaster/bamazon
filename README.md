@@ -7,6 +7,12 @@ Bamazon is a take on Amazon - this app takes in orders from customers and deplet
 * Mysql
 * Inquirer
 * Javascript
+* Node.js
+* Visual Studio Code
+* Markdown
+* Github
+* Screencastify
+* Workbench
 
 ## User Instructions
 Since this is a command line app, as the user you will need to do the following:
@@ -15,9 +21,11 @@ Since this is a command line app, as the user you will need to do the following:
 
 * Run npm install in your terminal
 
-* Add your own password and run the bamazon_db in your MySQL workbench
+* Add your own password in the bamazon.js file
 
-* Run the app in your terminal by writing node bamazon.js. Follow the prompts! You'll be able to select how many of a product to purchase and you will see the stock quantity reflect accordingly! Does Bamazon have enough of what you'd like? Find out!
+* In MySQL workbench, copy and paste the bamazon.sql content and click the lightning bolt. In order to reset the table, select all of the content and click the lightning bolt. 
+
+* Now, you're ready to roll! Run the app in your terminal by writing node bamazon.js. Follow the prompts! You'll be able to select how many of a product to purchase and you will see the stock quantity reflect accordingly. Does Bamazon have enough of what you'd like? Find out!
 
 ## Author
 Katie Haster
