@@ -31,4 +31,4 @@ Since this is a command line app, as the user you will need to do the following:
 Katie Haster
 
 ## View video walk through - 
-To see a screencastify of the app in action, click here - 
+To see a screencastify of the app in action, click here - https://drive.google.com/file/d/1EJd41Di6SXyhSUOL2cjY3ZuzVQo53WLC/view
